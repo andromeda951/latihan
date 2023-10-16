@@ -3,6 +3,7 @@ package com.andromeda.latihanuts
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
+import android.view.MenuItem
 import androidx.appcompat.app.ActionBar
 
 class HomeActivity : AppCompatActivity() {
@@ -21,7 +22,21 @@ class HomeActivity : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.home, menu)
+
+        val name = intent.getStringExtra("NAME")
+
+        val nameMenuItem: MenuItem? = menu?.findItem(R.id.username)
+        nameMenuItem?.title = "Hi, $name"
+
         return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId) {
+            R.id.logout -> finish()
+        }
+
+        return super.onOptionsItemSelected(item)
     }
 
 }

@@ -5,6 +5,9 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.ActionBar
+import androidx.viewpager2.widget.ViewPager2
+import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
 
 class HomeActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -18,6 +21,17 @@ class HomeActivity : AppCompatActivity() {
 
         actionBar?.setDisplayUseLogoEnabled(true)
         actionBar?.setDisplayShowHomeEnabled(true)
+
+        // Tab Layout
+        val viewPager = findViewById<ViewPager2>(R.id.view_pager)
+        val tabLayout = findViewById<TabLayout>(R.id.tab_layout)
+
+        val adapter = UnionAdapter(supportFragmentManager, lifecycle)
+        viewPager.adapter = adapter
+
+        TabLayoutMediator(tabLayout, viewPager) { tab, position ->
+            tab.text = resources.getString(TABS_FIXED[position])
+        }.attach()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

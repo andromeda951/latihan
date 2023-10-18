@@ -1,19 +1,18 @@
 package com.andromeda.latihanuts
 
-import android.graphics.Movie
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.ActionBar
+import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.andromeda.latihanuts.retrofit.ApiServices
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import retrofit2.Call
 import retrofit2.Response
-import javax.security.auth.callback.Callback
 
 class HomeActivity : AppCompatActivity() {
 
@@ -23,6 +22,25 @@ class HomeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
+        setupActionBar()
+        setupTabLayout()
+
+    }
+
+    private fun setupTabLayout() {
+        val viewPager = findViewById<ViewPager2>(R.id.view_pager)
+        val tabLayout = findViewById<TabLayout>(R.id.tab_layout)
+
+        val name = intent.getStringExtra("NAME")
+        val adapter = UnionAdapter(supportFragmentManager, lifecycle, name.toString())
+        viewPager.adapter = adapter
+
+        TabLayoutMediator(tabLayout, viewPager) { tab, position ->
+            tab.text = resources.getString(TABS_FIXED[position])
+        }.attach()
+    }
+
+    private fun setupActionBar() {
         val actionBar: ActionBar? = supportActionBar
 
         actionBar?.title = "UNION"
@@ -30,17 +48,6 @@ class HomeActivity : AppCompatActivity() {
 
         actionBar?.setDisplayUseLogoEnabled(true)
         actionBar?.setDisplayShowHomeEnabled(true)
-
-        // Tab Layout
-        val viewPager = findViewById<ViewPager2>(R.id.view_pager)
-        val tabLayout = findViewById<TabLayout>(R.id.tab_layout)
-
-        val adapter = UnionAdapter(supportFragmentManager, lifecycle)
-        viewPager.adapter = adapter
-
-        TabLayoutMediator(tabLayout, viewPager) { tab, position ->
-            tab.text = resources.getString(TABS_FIXED[position])
-        }.attach()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -64,6 +71,7 @@ class HomeActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
+//        setAdapter
         getDataFromApi()
     }
 
@@ -74,8 +82,13 @@ class HomeActivity : AppCompatActivity() {
                     call: Call<List<MovieModel>>,
                     response: Response<List<MovieModel>>
                 ) {
-//                    printLog(response.body().toString())
-                    showMovies(response.body()!!)
+                    if (response.isSuccessful) {
+//                        printLog(response.body().toString())
+//                        showMovies(response.body()!!)
+
+                        val movieAdapter = MovieAdapter(response.body()!!)
+                        findViewById<RecyclerView>(R.id.recycler_view).adapter = movieAdapter
+                    }
                 }
 
                 override fun onFailure(call: Call<List<MovieModel>>, t: Throwable) {

@@ -21,7 +21,7 @@ class UnionAdapter(fragmentManager: FragmentManager, lifecycle: Lifecycle, var n
     override fun createFragment(position: Int): Fragment {
 
         when (position) {
-            0 -> return ListFragment()
+            0 -> return ListMovieFragment()
         }
 
         return fragmentProfileWithName()

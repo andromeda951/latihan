@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.appcompat.app.ActionBar
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
@@ -86,7 +87,11 @@ class HomeActivity : AppCompatActivity() {
 //                        printLog(response.body().toString())
 //                        showMovies(response.body()!!)
 
-                        val movieAdapter = MovieAdapter(response.body()!!)
+                        val movieAdapter = MovieAdapter(response.body()!!, object : MovieAdapter.OnAdapterListener{
+                            override fun onClick(movie: MovieModel) {
+                                Toast.makeText(this@HomeActivity, movie.title, Toast.LENGTH_SHORT).show()
+                            }
+                        })
                         findViewById<RecyclerView>(R.id.recycler_view).adapter = movieAdapter
                     }
                 }

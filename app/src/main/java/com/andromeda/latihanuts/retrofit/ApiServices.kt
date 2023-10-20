@@ -18,7 +18,7 @@ object ApiServices {
             val client = OkHttpClient.Builder()
                 .addInterceptor { chain ->
                     val request = chain.request().newBuilder()
-                        .addHeader("X-RapidAPI-Key", "28a061dd22mshcc281775985f365p14a9a5jsnfaad84ca84bf")
+                        .addHeader("X-RapidAPI-Key", "5698ef0109msh30013549e357d04p1a9d60jsn69d4c77eff4b")
                         .addHeader("X-RapidAPI-Host", "imdb-top-100-movies.p.rapidapi.com")
                         .build()
                     chain.proceed(request)

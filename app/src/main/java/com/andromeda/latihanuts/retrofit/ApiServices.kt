@@ -3,7 +3,7 @@ package com.andromeda.latihanuts.retrofit
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.converter.moshi.MoshiConverterFactory
 
 
 object ApiServices {
@@ -29,7 +29,7 @@ object ApiServices {
             val retrofit = Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .client(client)
-                .addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory(MoshiConverterFactory.create())
                 .build()
 
             return retrofit.create(ApiEndpoint::class.java)

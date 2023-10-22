@@ -2,14 +2,12 @@ package com.andromeda.latihanuts
 
 import android.os.Parcel
 import android.os.Parcelable
-import java.util.ArrayList
-
 
 data class MovieModel(
     val title: String?,
     val description: String?,
     val thumbnail: String?,
-    val genre: ArrayList<String>?,
+    val genre: List<String>?,
     val year: Int,
     val rating: String?,
 ) : Parcelable {

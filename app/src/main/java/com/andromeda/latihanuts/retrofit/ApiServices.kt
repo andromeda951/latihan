@@ -1,5 +1,6 @@
 package com.andromeda.latihanuts.retrofit
 
+import com.andromeda.latihanuts.BuildConfig
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -15,11 +16,13 @@ object ApiServices {
             val interceptor = HttpLoggingInterceptor()
             interceptor.level = HttpLoggingInterceptor.Level.BODY
 
+            val apiKey = BuildConfig.API_KEY
+            val apiHost = BuildConfig.API_HOST
             val client = OkHttpClient.Builder()
                 .addInterceptor { chain ->
                     val request = chain.request().newBuilder()
-                        .addHeader("X-RapidAPI-Key", "5698ef0109msh30013549e357d04p1a9d60jsn69d4c77eff4b")
-                        .addHeader("X-RapidAPI-Host", "imdb-top-100-movies.p.rapidapi.com")
+                        .addHeader("X-RapidAPI-Key", apiKey)
+                        .addHeader("X-RapidAPI-Host", apiHost)
                         .build()
                     chain.proceed(request)
                 }

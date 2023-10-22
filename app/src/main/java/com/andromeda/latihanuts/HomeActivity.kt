@@ -84,12 +84,22 @@ class HomeActivity : AppCompatActivity() {
                     response: Response<List<MovieModel>>
                 ) {
                     if (response.isSuccessful) {
-//                        printLog(response.body().toString())
-//                        showMovies(response.body()!!)
-
                         val movieAdapter = MovieAdapter(response.body()!!, object : MovieAdapter.OnAdapterListener{
                             override fun onClick(movie: MovieModel) {
-                                Toast.makeText(this@HomeActivity, movie.title, Toast.LENGTH_SHORT).show()
+
+                                val detailMovieFragment = DetailMovieFragment()
+                                val fragment = supportFragmentManager.findFragmentByTag(DetailMovieFragment::class.java.simpleName)
+
+                                if (fragment !is DetailMovieFragment) {
+                                    supportFragmentManager.beginTransaction()
+                                        .add(R.id.container_home, detailMovieFragment, DetailMovieFragment::class.java.simpleName)
+                                        .addToBackStack(null)
+                                        .commit()
+                                } else {
+                                    supportFragmentManager.beginTransaction()
+                                        .show(fragment)
+                                        .commit()
+                                }
                             }
                         })
                         findViewById<RecyclerView>(R.id.recycler_view).adapter = movieAdapter

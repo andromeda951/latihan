@@ -10,4 +10,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="class_enrollment">Class Enrollment</string>
     <string name="profile">Profile</string>
+    <string name="year_movie">Year: %s</string>
+    <string name="genre_movie">Genre: %s</string>
+    <string name="rating_movie">Rating: %s</string>
 </resources>

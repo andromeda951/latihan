@@ -87,7 +87,11 @@ class HomeActivity : AppCompatActivity() {
                         val movieAdapter = MovieAdapter(response.body()!!, object : MovieAdapter.OnAdapterListener{
                             override fun onClick(movie: MovieModel) {
 
+                                val bundle = Bundle()
+                                bundle.putParcelable("DATA_MOVIE", movie)
+
                                 val detailMovieFragment = DetailMovieFragment()
+                                detailMovieFragment.arguments = bundle
                                 val fragment = supportFragmentManager.findFragmentByTag(DetailMovieFragment::class.java.simpleName)
 
                                 if (fragment !is DetailMovieFragment) {
@@ -97,7 +101,8 @@ class HomeActivity : AppCompatActivity() {
                                         .commit()
                                 } else {
                                     supportFragmentManager.beginTransaction()
-                                        .show(fragment)
+                                        .remove(fragment)
+                                        .add(R.id.container_home, detailMovieFragment, DetailMovieFragment::class.java.simpleName)
                                         .commit()
                                 }
                             }

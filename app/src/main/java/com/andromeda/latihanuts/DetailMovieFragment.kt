@@ -1,5 +1,6 @@
 package com.andromeda.latihanuts
 
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -9,7 +10,9 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.viewpager2.widget.ViewPager2
+import com.bumptech.glide.Glide
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
@@ -57,6 +60,28 @@ class DetailMovieFragment : Fragment() {
                     .commit()
             }
         }
+
+        val movie = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            arguments?.getParcelable("DATA_MOVIE", MovieModel::class.java)
+        } else {
+            @Suppress("DEPRECATION")
+            arguments?.getParcelable("DATA_MOVIE")
+        }
+
+        val thumbnail = view.findViewById<ImageView>(R.id.detail_movie_thumbnail)
+        Glide.with(thumbnail)
+            .load(movie?.thumbnail)
+            .into(thumbnail)
+
+        val title = movie?.title.toString()
+        val year = getString(R.string.year_movie, movie?.year.toString())
+        val genre = getString(R.string.genre_movie, movie?.genre.toString())
+        val rating = getString(R.string.rating_movie, movie?.rating.toString())
+
+        view.findViewById<TextView>(R.id.detail_movie_title).text = title
+        view.findViewById<TextView>(R.id.movie_year).text = year
+        view.findViewById<TextView>(R.id.movie_genre).text = genre
+        view.findViewById<TextView>(R.id.movie_rating).text = rating
     }
 
     companion object {
